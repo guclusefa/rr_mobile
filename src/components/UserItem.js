@@ -1,13 +1,10 @@
-import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-
-import { useNavigation } from '@react-navigation/native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
 import defaultImage from '../../assets/users/default.png';
 
-function UserCard({ user }) {
-    const navigation = useNavigation();
+function UserItem({ user }) {
     return (
-        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('Profile', { userId: user.id })}>
+        <View style={styles.container}>
             <Image style={styles.image} source={user.photo ? { uri: user.photo } : defaultImage} />
             <View style={styles.detailsContainer}>
                 <Text style={styles.username}>@{user.username}</Text>
@@ -15,7 +12,7 @@ function UserCard({ user }) {
                     {user.firstName} {user.lastName}
                 </Text>
             </View>
-        </TouchableOpacity>
+        </View>
     );
 }
 
@@ -44,4 +41,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default UserCard;
+export default UserItem;

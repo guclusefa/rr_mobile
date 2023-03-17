@@ -1,8 +1,8 @@
 import { View } from 'react-native';
 
-import { layout } from '../styles/layout';
-
 import UserList from '../components/UserList';
+
+import { layout } from '../styles/layout';
 
 function ProfilesScreen() {
   return (

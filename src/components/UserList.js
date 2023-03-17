@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FlatList, Text, Button, ActivityIndicator } from 'react-native';
-import { v4 as uuidv4 } from 'uuid';
+
 import { get } from '../services/api';
+
+import { v4 as uuidv4 } from 'uuid';
+
 import UserCard from './UserCard';
+
 import { typography } from '../styles/typography';
 import { colors } from '../styles/colors';
 
@@ -18,7 +22,7 @@ function UserList() {
     get('users', { order: "createdAt", direction: "DESC", page })
       .then((response) => response.json())
       .then((json) => {
-        setUsers([...users, ...json.data]);
+        setUsers(prevUsers => [...prevUsers, ...json.data]);
         setMeta(json.meta);
         setLoading(false);
         setInitialLoading(false);
@@ -36,7 +40,7 @@ function UserList() {
 
   const loadMore = () => {
     setLoading(true);
-    setPage(page + 1);
+    setPage(prevPage => prevPage + 1);
   };
 
   return (
@@ -54,16 +58,13 @@ function UserList() {
             onPress={loadMore}
             disabled={loading}
             color={colors.primary}
-          >
-          </Button>
+          />
         ) : null
       )}
       ListEmptyComponent={() => (
-        initialLoading ? (
-          <ActivityIndicator size="large" />
-        ) : (
+        users.length === 0 && !initialLoading ? (
           <Text style={typography.title_main}>Aucun utilisateur trouvé</Text>
-        )
+        ) : <ActivityIndicator size="large" color={colors.primary} />
       )}
     />
   );
