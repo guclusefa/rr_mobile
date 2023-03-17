@@ -1,12 +1,13 @@
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 
 import { layout } from '../styles/layout';
-import { typography } from '../styles/typography';
+
+import UserList from '../components/UserList';
 
 function ProfilesScreen() {
   return (
     <View style={layout.container}>
-      <Text style={typography.title_main}>ProfilesScreen</Text>
+      <UserList />
     </View>
   );
 };

@@ -28,6 +28,7 @@ function BottomTabNavigator() {
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="home" color={color} size={size} />
                     ),
+                    title: 'Accueil',
                 }}
             />
             <Tab.Screen name="Profiles" component={ProfilesScreen}
@@ -35,6 +36,7 @@ function BottomTabNavigator() {
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="account" color={color} size={size} />
                     ),
+                    title: 'Profils',
                 }}
             />
             <Tab.Screen name="Resources" component={ResourcesScreen}
@@ -42,6 +44,7 @@ function BottomTabNavigator() {
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="book" color={color} size={size} />
                     ),
+                    title: 'Ressources',
                 }}
             />
             <Tab.Screen name="Settings" component={SettingsScreen} 
@@ -49,6 +52,7 @@ function BottomTabNavigator() {
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="cog" color={color} size={size} />
                     ),
+                    title: 'Paramètres',
                 }}
             />
         </Tab.Navigator>
