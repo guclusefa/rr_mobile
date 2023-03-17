@@ -15,7 +15,7 @@ function UserList() {
 
   useEffect(() => {
     setLoading(true);
-    get('users', { limit: 10, page })
+    get('users', { order: "createdAt", direction: "DESC", page })
       .then((response) => response.json())
       .then((json) => {
         setUsers([...users, ...json.data]);
@@ -45,12 +45,12 @@ function UserList() {
       renderItem={renderItem}
       keyExtractor={() => uuidv4()}
       ListHeaderComponent={() => (
-        <Text style={typography.title_main}>{users.length > 0 ? `Affichage de ${meta.end} sur ${meta.total} utilisateurs` : null}</Text>
+        <Text style={typography.title_main}>{users.length > 0 ? `Affichage de ${meta.end} profils sur ${meta.total} profils` : null}</Text>
       )}
       ListFooterComponent={() => (
         meta.next ? (
           <Button
-            title={loading ? 'Chargement' : 'Voir plus'}
+            title={loading ? 'Chargement...' : 'Voir plus'}
             onPress={loadMore}
             disabled={loading}
             color={colors.primary}

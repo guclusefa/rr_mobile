@@ -1,20 +1,14 @@
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import defaultImage from '../../assets/users/default.png';
 
 function UserCard({ user }) {
-    const renderPhoto = () => {
-        if (user.photo) {
-            return <Image style={styles.image} source={{ uri: user.photo }} />;
-        }
-        return <MaterialCommunityIcons name="account" size={50} color="#666" />;
-    };
-
     return (
         <View style={styles.container}>
-            {renderPhoto()}
+            <Image style={styles.image} source={user.photo ? { uri: user.photo } : defaultImage} />
             <View style={styles.detailsContainer}>
-                <Text style={styles.username}>{user.username}</Text>
+                <Text style={styles.username}>@{user.username}</Text>
                 <Text style={styles.name}>
                     {user.firstName} {user.lastName}
                 </Text>

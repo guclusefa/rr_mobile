@@ -6,7 +6,7 @@ import { typography } from '../styles/typography';
 function HomeScreen() {
   return (
     <View style={layout.container}>
-      <Text style={typography.title_main}>Home Screen</Text>
+      <Text style={typography.title_main}>BIENVENUE SUR LE SITE DES RESSOURCES (RE)LATIONNELLES</Text>
     </View>
   );
 };

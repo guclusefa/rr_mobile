@@ -1,4 +1,4 @@
-const BASE_URL = 'http://10.138.128.117:8000/api/';
+const BASE_URL = 'https://cesi-rr.alwaysdata.net/api/';
 const headers = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
