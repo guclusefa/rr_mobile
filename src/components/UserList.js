@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { FlatList, Text, Button, ActivityIndicator } from 'react-native';
 
 import { get } from '../services/api';
@@ -16,6 +16,8 @@ function UserList() {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const flatListRef = useRef(null);
 
   useEffect(() => {
     setLoading(true);
@@ -26,13 +28,15 @@ function UserList() {
         setMeta(json.meta);
         setLoading(false);
         setInitialLoading(false);
+        setRefreshing(false); // set refreshing to false after data is fetched
       })
       .catch((error) => {
         console.error(error);
         setLoading(false);
         setInitialLoading(false);
+        setRefreshing(false); // set refreshing to false after error occurs
       });
-  }, [page]);
+  }, [page, refreshing]);
 
   const renderItem = ({ item }) => (
     <UserCard user={item} key={uuidv4()} />
@@ -43,8 +47,15 @@ function UserList() {
     setPage(prevPage => prevPage + 1);
   };
 
+  const onRefresh = () => {
+    setRefreshing(true);
+    setUsers([]);
+    setPage(1);
+  };
+
   return (
     <FlatList
+      ref={flatListRef}
       data={users}
       renderItem={renderItem}
       keyExtractor={() => uuidv4()}
@@ -52,7 +63,7 @@ function UserList() {
         <Text style={typography.title_main}>{users.length > 0 ? `Affichage de ${meta.end} profils sur ${meta.total} profils` : null}</Text>
       )}
       ListFooterComponent={() => (
-        meta.next ? (
+        meta.next && !refreshing ? ( // if next page exists and not refreshing, show button
           <Button
             title={loading ? 'Chargement...' : 'Voir plus'}
             onPress={loadMore}
@@ -62,10 +73,22 @@ function UserList() {
         ) : null
       )}
       ListEmptyComponent={() => (
-        users.length === 0 && !initialLoading ? (
+        users.length === 0 && !initialLoading && !refreshing ? (
           <Text style={typography.title_main}>Aucun utilisateur trouvé</Text>
         ) : <ActivityIndicator size="large" color={colors.primary} />
       )}
+      onRefresh={onRefresh}
+      refreshing={refreshing}
+      // scroll event handler to check if the top of the list is reached
+      onScroll={({ nativeEvent }) => {
+        if (nativeEvent.contentOffset.y === 0) {
+          // if at top of list, reset users and page and set refreshing to true
+          setUsers([]);
+          setPage(1);
+          setRefreshing(true);
+          flatListRef.current.scrollToOffset({ animated: true, offset: 0 }); // scroll to top
+        }
+      }}
     />
   );
 }
