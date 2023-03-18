@@ -22,6 +22,8 @@ function HomeStack() {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Home" options={{ title: 'Accueil' }} component={HomeScreen} />
+            <Stack.Screen name="Profile" options={{ title: 'Profil' }} component={ProfileScreen} />
+            <Stack.Screen name="Resource" options={{ title: 'Ressource' }} component={ResourceScreen} />
         </Stack.Navigator>
     );
 }
@@ -31,6 +33,7 @@ function ProfilesStack() {
         <Stack.Navigator>
             <Stack.Screen name="Profiles" options={{ title: 'Profils' }} component={ProfilesScreen} />
             <Stack.Screen name="Profile" options={{ title: 'Profil' }} component={ProfileScreen} />
+            <Stack.Screen name="Resource" options={{ title: 'Ressource' }} component={ResourceScreen} />
         </Stack.Navigator>
     );
 }

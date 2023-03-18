@@ -10,7 +10,7 @@ import UserCard from './UserCard';
 import { typography } from '../styles/typography';
 import { colors } from '../styles/colors';
 
-function UserList( {params} ) {
+function UserList( {params, showInfo=true} ) {
   const [users, setUsers] = useState([]);
   const [meta, setMeta] = useState({});
   const [page, setPage] = useState(1);
@@ -60,10 +60,12 @@ function UserList( {params} ) {
       renderItem={renderItem}
       keyExtractor={() => uuidv4()}
       ListHeaderComponent={() => (
-        <Text style={typography.title_main}>{users.length > 0 ? `Affichage de ${meta.end} profils sur ${meta.total} profils` : null}</Text>
+        showInfo && users.length > 0 ? (
+          <Text style={typography.title_main}>{`Affichage de ${meta.end} profils sur ${meta.total} profils`}</Text>
+        ) : null
       )}
       ListFooterComponent={() => (
-        meta.next && !refreshing ? ( // if next page exists and not refreshing, show button
+        meta.next && !refreshing && showInfo ? (
           <Button
             title={loading ? 'Chargement...' : 'Voir plus'}
             onPress={loadMore}

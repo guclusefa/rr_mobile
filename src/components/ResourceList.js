@@ -10,7 +10,7 @@ import ResourceCard from './ResourceCard';
 import { typography } from '../styles/typography';
 import { colors } from '../styles/colors';
 
-function ResourceList({ params }) {
+function ResourceList({ params, showInfo = true }) {
   const [resources, setResources] = useState([]);
   const [meta, setMeta] = useState({});
   const [page, setPage] = useState(1);
@@ -60,10 +60,12 @@ function ResourceList({ params }) {
       renderItem={renderItem}
       keyExtractor={() => uuidv4()}
       ListHeaderComponent={() => (
-        <Text style={typography.title_main}>{resources.length > 0 ? `Affichage de ${meta.end} ressources sur ${meta.total} ressources` : null}</Text>
+        showInfo && resources.length > 0 ? (
+          <Text style={typography.title_main}>{`Affichage de ${meta.end} ressources sur ${meta.total} ressources`}</Text>
+        ) : null
       )}
       ListFooterComponent={() => (
-        meta.next && !refreshing ? ( // if next page exists and not refreshing, show button
+        meta.next && !refreshing && showInfo ? (
           <Button
             title={loading ? 'Chargement...' : 'Voir plus'}
             onPress={loadMore}
