@@ -3,24 +3,24 @@ import { View, Text, ActivityIndicator } from 'react-native';
 
 import { get } from '../services/api';
 
-import UserItem from '../components/UserItem';
+import ResourceItem from '../components/ResourceItem';
 
 import { layout } from '../styles/layout';
 import { typography } from '../styles/typography';
 import { colors } from '../styles/colors';
 
-function ProfileScreen({ route }) {
+function ResourceScreen({ route }) {
     const { id } = route.params;
 
-    const [user, setUser] = useState({});
+    const [resource, setResource] = useState({});
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         setLoading(true);
-        get(`users/${id}`, {})
+        get(`resources/${id}`, {})
             .then((response) => response.json())
             .then((json) => {
-                setUser(json.data);
+                setResource(json.data);
                 setLoading(false);
             })
             .catch((error) => {
@@ -36,12 +36,12 @@ function ProfileScreen({ route }) {
                 <ActivityIndicator size="large" color={colors.primary} />
             ) : (
                 <View>
-                    <Text style={typography.title_main}>Profile de @{user.username}</Text>
-                    <UserItem user={user} />
+                    <Text style={typography.title_main}>{resource.title}</Text>
+                    <ResourceItem resource={resource} />
                 </View>
             )}
         </View>
     );
 }
 
-export default ProfileScreen;
+export default ResourceScreen;

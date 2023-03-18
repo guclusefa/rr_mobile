@@ -5,6 +5,7 @@ import HomeScreen from '../screens/HomeScreen';
 import ProfilesScreen from '../screens/ProfilesScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import ResourcesScreen from '../screens/ResourcesScreen';
+import ResourceScreen from '../screens/ResourceScreen';
 
 import { colors } from '../styles/colors';
 
@@ -34,6 +35,7 @@ function ResourcesStack() {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Resources" options={{ title: 'Ressources' }} component={ResourcesScreen} />
+            <Stack.Screen name="Resource" options={{ title: 'Ressource' }} component={ResourceScreen} />
         </Stack.Navigator>
     );
 }
