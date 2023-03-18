@@ -51,7 +51,7 @@ function ResourceItem({ resource }) {
 const styles = StyleSheet.create({
     scrollViewContentContainer: {
         flexGrow: 1,
-        paddingBottom: 24,
+        minHeight: '100%',
     },
     container: {
         alignItems: 'center',
@@ -102,17 +102,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 4,
         gap: 8,
-    },
-    contentWrapper: {
-        flex: 1,
-        marginTop: 8,
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    content: {
-        fontSize: 14,
-        color: '#333',
     },
 });
 

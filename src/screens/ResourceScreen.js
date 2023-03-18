@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
+
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import { get } from '../services/api';
 
 import ResourceItem from '../components/ResourceItem';
+import CommentList from '../components/CommentList';
 
 import { layout } from '../styles/layout';
-import { typography } from '../styles/typography';
 import { colors } from '../styles/colors';
+
+const Tab = createMaterialTopTabNavigator();
 
 function ResourceScreen({ route }) {
     const { id } = route.params;
@@ -27,20 +31,42 @@ function ResourceScreen({ route }) {
                 console.error(error);
                 setLoading(false);
             });
-    }
-        , []);
+    }, []);
 
     return (
         <View style={layout.container}>
             {loading ? (
                 <ActivityIndicator size="large" color={colors.primary} />
             ) : (
-                <View>
-                    <Text style={typography.title_main}>{resource.title}</Text>
-                    <ResourceItem resource={resource} />
-                </View>
+                <Tab.Navigator initialRouteName="Resources"
+                    screenOptions={{
+                        tabBarActiveTintColor: colors.primary,
+                        tabBarInactiveTintColor: colors.text,
+                        tabBarStyle: { backgroundColor: colors.background },
+                        tabBarIndicatorStyle: { backgroundColor: colors.primary },
+                    }}
+                >
+                    <Tab.Screen name="Resource"
+                        options={{ title: "Ressource" }}
+                    >
+                        {() => (
+                            <View>
+                                <ResourceItem resource={resource} />
+                            </View>
+                        )}
+                    </Tab.Screen>
+                    <Tab.Screen name="Comments"
+                        options={{ title: "Commentaires" }}
+                    >
+                        {() => (
+                            <View>
+                                <CommentList params={{ order: "createdAt", direction: "desc", "resource[]": id }} />
+                            </View>
+                        )}
+                    </Tab.Screen>
+                </Tab.Navigator>
             )}
-        </View>
+        </View >
     );
 }
 
