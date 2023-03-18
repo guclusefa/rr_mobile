@@ -4,15 +4,13 @@ import { useNavigation } from '@react-navigation/native';
 
 import UserIdentifier from './UserIdentifier';
 
-import defaultImage from '../../assets/resources/default.png';
-
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function ResourceCard({ resource }) {
     const navigation = useNavigation();
     return (
         <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('Resource', { id: resource.id })}>
-            <Image style={styles.image} source={resource.media && !resource.media.endsWith('.mp4') ? { uri: resource.media } : defaultImage} />
+            <Image style={styles.image} source={resource.media && !resource.media.endsWith('.mp4') ? { uri: resource.media } : { uri: "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" }} />
             <View style={styles.detailsContainer}>
                 <Text style={styles.title}>{resource.title} {resource.isVerified ? <MaterialCommunityIcons name="check-decagram" size={16} color="#666" /> : null}</Text>
                 <View style={styles.badgesContainer}>

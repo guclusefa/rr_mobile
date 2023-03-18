@@ -8,17 +8,17 @@ import { typography } from '../styles/typography';
 
 function HomeScreen() {
   return (
-    <ScrollView>
+
     <View style={layout.container}>
       <Text style={typography.title_main}>BIENVENUE SUR LE SITE DES RESSOURCES (RE)LATIONNELLES</Text>
       <Text style={styles.title_secondary}>Le site des Ressources (Re)lationnelles permet de consulter, partager et créer des ressources afin de faciliter l'accès à l'information et de favoriser l'échange entre les personnes.</Text>
       <Text style={[typography.title_main, { marginTop: 20 }]}>LES RESOURCES LES PLUS POPULAIRES, À DÉCOUVRIR !</Text>
-      <ResourceList params={{ order: 'likes', direction: 'desc', limit: 3 }} showInfo={false} />
+      <ResourceList params={{ order: 'likes', direction: 'desc', limit: 3 }} showInfo={false} style={{ height: 200 }} />
+
       <Text style={[typography.title_main, { marginTop: 20 }]}>LES DERNIERS MEMBRES INSCRITS, BIENVENUE !</Text>
       <UserList params={{ order: 'createdAt', direction: 'desc', limit: 3 }} showInfo={false} />
 
     </View>
-    </ScrollView>
   );
 };
 

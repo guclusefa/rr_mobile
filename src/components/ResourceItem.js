@@ -2,7 +2,6 @@ import React from 'react';
 import { Image, StyleSheet, Text, View, ScrollView } from 'react-native';
 import HTML from 'react-native-render-html';
 import UserIdentifier from './UserIdentifier';
-import defaultImage from '../../assets/resources/default.png';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function ResourceItem({ resource }) {
@@ -10,7 +9,7 @@ function ResourceItem({ resource }) {
         <ScrollView contentContainerStyle={styles.scrollViewContentContainer}>
             <View style={styles.container}>
                 <View style={styles.resourceContainer}>
-                    <Image style={styles.image} source={resource.media && !resource.media.endsWith('.mp4') ? { uri: resource.media } : defaultImage} />
+                    <Image style={styles.image} source={resource.media && !resource.media.endsWith('.mp4') ? { uri: resource.media } : { uri: "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" }} />
                     <View style={styles.detailsContainer}>
                         <Text style={styles.title}>{resource.title} {resource.isVerified ? <MaterialCommunityIcons name="check-decagram" size={16} color="#666" /> : null}</Text>
                         <View style={styles.badgesContainer}>
