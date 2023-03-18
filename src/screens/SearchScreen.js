@@ -40,7 +40,6 @@ function SearchScreen() {
         </TouchableOpacity>
       </View>
       <Tab.Navigator
-        initialRouteName="Resources"
         screenOptions={{
           tabBarActiveTintColor: colors.primary,
           tabBarInactiveTintColor: colors.text,

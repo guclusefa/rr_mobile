@@ -24,7 +24,7 @@ function ResourceList({ params, showInfo = true }) {
     get('resources', { ...params, page })
       .then((response) => response.json())
       .then((json) => {
-        setResources(prevResources => [...prevResources, ...json.data]);
+        setResources(json.data);
         setMeta(json.meta);
         setLoading(false);
         setInitialLoading(false);
@@ -48,9 +48,9 @@ function ResourceList({ params, showInfo = true }) {
   };
 
   const onRefresh = () => {
+    if (refreshing) return; // if already refreshing, do nothing
     setRefreshing(true);
-    setResources([]);
-    setPage(1);
+    setPage(1); // reset page
   };
 
   return (
@@ -75,21 +75,20 @@ function ResourceList({ params, showInfo = true }) {
         ) : null
       )}
       ListEmptyComponent={() => (
-        resources.length === 0 && !initialLoading && !refreshing ? (
-          <Text style={[typography.title_main, { textAlign: 'center' }]}>Aucune ressource trouvée</Text>
-
-        ) : <ActivityIndicator size="large" color={colors.primary} />
+        initialLoading ? (
+          <ActivityIndicator size="large" color={colors.primary} />
+        ) : (
+          <Text style={typography.title_main}>Aucune ressource trouvée</Text>
+        )
       )}
       onRefresh={onRefresh}
       refreshing={refreshing}
       // scroll event handler to check if the top of the list is reached
       onScroll={({ nativeEvent }) => {
         if (nativeEvent.contentOffset.y === 0) {
-          // if at top of list, reset resources and page and set refreshing to true
-          setResources([]);
           setPage(1);
           setRefreshing(true);
-          flatListRef.current.scrollToOffset({ animated: true, offset: 0 }); // scroll to top
+          flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
         }
       }}
     />

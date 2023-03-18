@@ -10,7 +10,7 @@ import UserCard from './UserCard';
 import { typography } from '../styles/typography';
 import { colors } from '../styles/colors';
 
-function UserList( {params, showInfo=true} ) {
+function UserList({ params, showInfo = true }) {
   const [users, setUsers] = useState([]);
   const [meta, setMeta] = useState({});
   const [page, setPage] = useState(1);
@@ -24,7 +24,7 @@ function UserList( {params, showInfo=true} ) {
     get('users', { ...params, page })
       .then((response) => response.json())
       .then((json) => {
-        setUsers(prevUsers => [...prevUsers, ...json.data]);
+        setUsers(json.data);
         setMeta(json.meta);
         setLoading(false);
         setInitialLoading(false);
@@ -48,9 +48,9 @@ function UserList( {params, showInfo=true} ) {
   };
 
   const onRefresh = () => {
+    if (refreshing) return; // if already refreshing, do nothing
     setRefreshing(true);
-    setUsers([]);
-    setPage(1);
+    setPage(1); // reset page
   };
 
   return (
@@ -75,20 +75,20 @@ function UserList( {params, showInfo=true} ) {
         ) : null
       )}
       ListEmptyComponent={() => (
-        users.length === 0 && !initialLoading && !refreshing ? (
-          <Text style={[typography.title_main, { textAlign: 'center' }]}>Aucun profil trouvé</Text>
-        ) : <ActivityIndicator size="large" color={colors.primary} />
+        initialLoading ? (
+          <ActivityIndicator size="large" color={colors.primary} />
+        ) : (
+          <Text style={typography.title_main}>Aucun profil trouvé</Text>
+        )
       )}
       onRefresh={onRefresh}
       refreshing={refreshing}
       // scroll event handler to check if the top of the list is reached
       onScroll={({ nativeEvent }) => {
         if (nativeEvent.contentOffset.y === 0) {
-          // if at top of list, reset users and page and set refreshing to true
-          setUsers([]);
           setPage(1);
           setRefreshing(true);
-          flatListRef.current.scrollToOffset({ animated: true, offset: 0 }); // scroll to top
+          flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
         }
       }}
     />

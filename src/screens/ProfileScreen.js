@@ -9,8 +9,6 @@ import { layout } from '../styles/layout';
 import { typography } from '../styles/typography';
 import { colors } from '../styles/colors';
 
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
 import UserItem from '../components/UserItem';
 import ResourceList from '../components/ResourceList';
 
@@ -53,9 +51,7 @@ function ProfileScreen({ route }) {
                             tabBarIndicatorStyle: { backgroundColor: colors.primary },
                         }}
                     >
-                        <Tab.Screen name="Resources"
-                            options={{ title: "Publiées", tabBarIcon: ({ color, size }) => (<MaterialCommunityIcons name="file-document" color={color} size={size} />) }}
-                        >
+                        <Tab.Screen name="Resources" options={{ title: "Ressources" }}>
                             {() => (
                                 <View>
                                     <ResourceList params={{ order: "createdAt", direction: "desc", "author[]": id }} />
@@ -63,9 +59,7 @@ function ProfileScreen({ route }) {
                             )}
                         </Tab.Screen>
 
-                        <Tab.Screen name="Shared"
-                            options={{ title: "Partagées", tabBarIcon: ({ color, size }) => (<MaterialCommunityIcons name="share-variant" color={color} size={size} />) }}
-                        >
+                        <Tab.Screen name="Shared" options={{ title: "Partagées" }}>
                             {() => (
                                 <View>
                                     <ResourceList params={{ order: "createdAt", direction: "desc", sharedBy: id }} />
@@ -73,9 +67,7 @@ function ProfileScreen({ route }) {
                             )}
                         </Tab.Screen>
 
-                        <Tab.Screen name="Liked"
-                            options={{ title: "Aimées", tabBarIcon: ({ color, size }) => (<MaterialCommunityIcons name="thumb-up" color={color} size={size} />) }}
-                        >
+                        <Tab.Screen name="Liked" options={{ title: "Aimées" }}>
                             {() => (
                                 <View>
                                     <ResourceList params={{ order: "createdAt", direction: "desc", likedBy: id }} />
@@ -83,9 +75,7 @@ function ProfileScreen({ route }) {
                             )}
                         </Tab.Screen>
 
-                        <Tab.Screen name="Exploited"
-                            options={{ title: "Exploitées", tabBarIcon: ({ color, size }) => (<MaterialCommunityIcons name="lightbulb-on" color={color} size={size} />) }}
-                        >
+                        <Tab.Screen name="Exploited" options={{ title: "Exploitées" }}>
                             {() => (
                                 <View>
                                     <ResourceList params={{ order: "createdAt", direction: "desc", exploitedBy: id }} />

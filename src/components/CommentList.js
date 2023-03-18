@@ -10,7 +10,7 @@ import CommentCard from './CommentCard';
 import { typography } from '../styles/typography';
 import { colors } from '../styles/colors';
 
-function CommentList({ params }) {
+function CommentList({ params, showInfo = true }) {
   const [comments, setComments] = useState([]);
   const [meta, setMeta] = useState({});
   const [page, setPage] = useState(1);
@@ -24,7 +24,7 @@ function CommentList({ params }) {
     get('comments', { ...params, page })
       .then((response) => response.json())
       .then((json) => {
-        setComments(prevComments => [...prevComments, ...json.data]);
+        setComments(json.data);
         setMeta(json.meta);
         setLoading(false);
         setInitialLoading(false);
@@ -48,9 +48,9 @@ function CommentList({ params }) {
   };
 
   const onRefresh = () => {
+    if (refreshing) return; // if already refreshing, do nothing
     setRefreshing(true);
-    setComments([]);
-    setPage(1);
+    setPage(1); // reset page
   };
 
   return (
@@ -60,10 +60,12 @@ function CommentList({ params }) {
       renderItem={renderItem}
       keyExtractor={() => uuidv4()}
       ListHeaderComponent={() => (
-        <Text style={typography.title_main}>{comments.length > 0 ? `Affichage de ${meta.end} ressources sur ${meta.total} ressources` : null}</Text>
+        showInfo && comments.length > 0 ? (
+          <Text style={typography.title_main}>{`Affichage de ${meta.end} commentaires sur ${meta.total} commentaires`}</Text>
+        ) : null
       )}
       ListFooterComponent={() => (
-        meta.next && !refreshing ? ( // if next page exists and not refreshing, show button
+        meta.next && !refreshing && showInfo ? (
           <Button
             title={loading ? 'Chargement...' : 'Voir plus'}
             onPress={loadMore}
@@ -73,21 +75,20 @@ function CommentList({ params }) {
         ) : null
       )}
       ListEmptyComponent={() => (
-        comments.length === 0 && !initialLoading && !refreshing ? (
-          <Text style={[typography.title_main, { textAlign: 'center' }]}>Aucun commentaire trouvé</Text>
-
-        ) : <ActivityIndicator size="large" color={colors.primary} />
+        initialLoading ? (
+          <ActivityIndicator size="large" color={colors.primary} />
+        ) : (
+          <Text style={typography.title_main}>Aucun commentaire trouvé</Text>
+        )
       )}
       onRefresh={onRefresh}
       refreshing={refreshing}
       // scroll event handler to check if the top of the list is reached
       onScroll={({ nativeEvent }) => {
         if (nativeEvent.contentOffset.y === 0) {
-          // if at top of list, reset comments and page and set refreshing to true
-          setComments([]);
           setPage(1);
           setRefreshing(true);
-          flatListRef.current.scrollToOffset({ animated: true, offset: 0 }); // scroll to top
+          flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
         }
       }}
     />
