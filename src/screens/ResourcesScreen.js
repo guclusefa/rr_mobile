@@ -7,7 +7,7 @@ import { layout } from '../styles/layout';
 function ResourcesScreen() {
   return (
     <View style={layout.container}>
-      <ResourceList />
+      <ResourceList params={{ order: "createdAt", direction: "desc" }} />
     </View>
   );
 };

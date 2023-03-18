@@ -7,7 +7,7 @@ import { layout } from '../styles/layout';
 function ProfilesScreen() {
   return (
     <View style={layout.container}>
-      <UserList />
+      <UserList params={{ order: "createdAt", direction: "desc" }} />
     </View>
   );
 };

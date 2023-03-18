@@ -1,13 +1,20 @@
-import { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 
-import { get } from '../services/api';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import UserItem from '../components/UserItem';
+import { get } from '../services/api';
 
 import { layout } from '../styles/layout';
 import { typography } from '../styles/typography';
 import { colors } from '../styles/colors';
+
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import UserItem from '../components/UserItem';
+import ResourceList from '../components/ResourceList';
+
+const Tab = createMaterialTopTabNavigator();
 
 function ProfileScreen({ route }) {
     const { id } = route.params;
@@ -27,20 +34,69 @@ function ProfileScreen({ route }) {
                 console.error(error);
                 setLoading(false);
             });
-    }
-        , []);
+    }, []);
 
     return (
         <View style={layout.container}>
             {loading ? (
                 <ActivityIndicator size="large" color={colors.primary} />
             ) : (
-                <View>
+                <View style={{ flex: 1 }}>
                     <Text style={typography.title_main}>Profile de @{user.username}</Text>
                     <UserItem user={user} />
+                    <Tab.Navigator initialRouteName="Resources"
+                        screenOptions={{
+                            tabBarLabelStyle: { fontSize: 10 },
+                            tabBarActiveTintColor: colors.primary,
+                            tabBarInactiveTintColor: colors.text,
+                            tabBarStyle: { backgroundColor: colors.background },
+                            tabBarIndicatorStyle: { backgroundColor: colors.primary },
+                        }}
+                    >
+                        <Tab.Screen name="Resources"
+                            options={{ title: "Publiées", tabBarIcon: ({ color, size }) => (<MaterialCommunityIcons name="file-document" color={color} size={size} />) }}
+                        >
+                            {() => (
+                                <View>
+                                    <ResourceList params={{ order: "createdAt", direction: "desc", "author[]": id }} />
+                                </View>
+                            )}
+                        </Tab.Screen>
+
+                        <Tab.Screen name="Shared"
+                            options={{ title: "Partagées", tabBarIcon: ({ color, size }) => (<MaterialCommunityIcons name="share-variant" color={color} size={size} />) }}
+                        >
+                            {() => (
+                                <View>
+                                    <ResourceList params={{ order: "createdAt", direction: "desc", sharedBy: id }} />
+                                </View>
+                            )}
+                        </Tab.Screen>
+
+                        <Tab.Screen name="Liked"
+                            options={{ title: "Aimées", tabBarIcon: ({ color, size }) => (<MaterialCommunityIcons name="thumb-up" color={color} size={size} />) }}
+                        >
+                            {() => (
+                                <View>
+                                    <ResourceList params={{ order: "createdAt", direction: "desc", likedBy: id }} />
+                                </View>
+                            )}
+                        </Tab.Screen>
+
+                        <Tab.Screen name="Exploited"
+                            options={{ title: "Exploitées", tabBarIcon: ({ color, size }) => (<MaterialCommunityIcons name="lightbulb-on" color={color} size={size} />) }}
+                        >
+                            {() => (
+                                <View>
+                                    <ResourceList params={{ order: "createdAt", direction: "desc", exploitedBy: id }} />
+                                </View>
+                            )}
+                        </Tab.Screen>
+                    </Tab.Navigator>
                 </View>
-            )}
-        </View>
+            )
+            }
+        </View >
     );
 }
 

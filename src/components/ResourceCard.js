@@ -26,6 +26,20 @@ function ResourceCard({ resource }) {
                 </View>
                 <UserIdentifier user={resource.author} />
                 <Text style={styles.createdAt}>Publié le {new Date(resource.createdAt).toLocaleDateString()}</Text>
+                <View style={styles.statsContainer}>
+                    <Text style={styles.comments}>
+                        <MaterialCommunityIcons name="comment" size={16} color="#666" /> {resource.comments}
+                    </Text>
+                    <Text style={styles.shares}>
+                        <MaterialCommunityIcons name="share" size={16} color="#666" /> {resource.shares}
+                    </Text>
+                    <Text style={styles.likes}>
+                        <MaterialCommunityIcons name="thumb-up" size={16} color="#666" /> {resource.likes}
+                    </Text>
+                    <Text style={styles.exploits}>
+                        <MaterialCommunityIcons name="lightbulb-on" size={16} color="#666" /> {resource.exploits}
+                    </Text>
+                </View>
             </View>
         </TouchableOpacity>
     );
@@ -71,6 +85,12 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: '#666',
         marginTop: 4,
+    },
+    statsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 4,
+        gap: 8,
     },
 });
 

@@ -10,7 +10,7 @@ import ResourceCard from './ResourceCard';
 import { typography } from '../styles/typography';
 import { colors } from '../styles/colors';
 
-function ResourceList() {
+function ResourceList({ params }) {
   const [resources, setResources] = useState([]);
   const [meta, setMeta] = useState({});
   const [page, setPage] = useState(1);
@@ -21,7 +21,7 @@ function ResourceList() {
 
   useEffect(() => {
     setLoading(true);
-    get('resources', { order: "createdAt", direction: "DESC", page })
+    get('resources', { ...params, page })
       .then((response) => response.json())
       .then((json) => {
         setResources(prevResources => [...prevResources, ...json.data]);
@@ -74,7 +74,8 @@ function ResourceList() {
       )}
       ListEmptyComponent={() => (
         resources.length === 0 && !initialLoading && !refreshing ? (
-          <Text style={typography.title_main}>Aucun utilisateur trouvé</Text>
+          <Text style={[typography.title_main, { textAlign: 'center' }]}>Aucune ressource trouvée</Text>
+
         ) : <ActivityIndicator size="large" color={colors.primary} />
       )}
       onRefresh={onRefresh}

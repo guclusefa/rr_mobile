@@ -10,7 +10,7 @@ import UserCard from './UserCard';
 import { typography } from '../styles/typography';
 import { colors } from '../styles/colors';
 
-function UserList() {
+function UserList( {params} ) {
   const [users, setUsers] = useState([]);
   const [meta, setMeta] = useState({});
   const [page, setPage] = useState(1);
@@ -21,7 +21,7 @@ function UserList() {
 
   useEffect(() => {
     setLoading(true);
-    get('users', { order: "createdAt", direction: "DESC", page })
+    get('users', { ...params, page })
       .then((response) => response.json())
       .then((json) => {
         setUsers(prevUsers => [...prevUsers, ...json.data]);
@@ -74,7 +74,7 @@ function UserList() {
       )}
       ListEmptyComponent={() => (
         users.length === 0 && !initialLoading && !refreshing ? (
-          <Text style={typography.title_main}>Aucun utilisateur trouvé</Text>
+          <Text style={[typography.title_main, { textAlign: 'center' }]}>Aucun profil trouvé</Text>
         ) : <ActivityIndicator size="large" color={colors.primary} />
       )}
       onRefresh={onRefresh}
