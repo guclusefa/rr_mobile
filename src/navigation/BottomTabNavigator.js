@@ -2,10 +2,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import HomeScreen from '../screens/HomeScreen';
+
 import ProfilesScreen from '../screens/ProfilesScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+
 import ResourcesScreen from '../screens/ResourcesScreen';
 import ResourceScreen from '../screens/ResourceScreen';
+
+import SearchScreen from '../screens/SearchScreen';
 
 import { colors } from '../styles/colors';
 
@@ -40,6 +44,14 @@ function ResourcesStack() {
     );
 }
 
+function SearchStack() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Search" options={{ title: 'Recherche' }} component={SearchScreen} />
+        </Stack.Navigator>
+    );
+}
+
 function BottomTabNavigator() {
     return (
         <Tab.Navigator
@@ -56,6 +68,9 @@ function BottomTabNavigator() {
                         case 'ResourcesStack':
                             iconName = 'book-open-page-variant';
                             break;
+                        case 'SearchStack':
+                            iconName = 'magnify';
+                            break;
                         default:
                             iconName = 'home';
                             break;
@@ -68,6 +83,7 @@ function BottomTabNavigator() {
             <Tab.Screen name="HomeStack" options={{ title: 'Accueil', headerShown: false }} component={HomeStack} />
             <Tab.Screen name="ProfilesStack" options={{ title: 'Profils', headerShown: false }} component={ProfilesStack} />
             <Tab.Screen name="ResourcesStack" options={{ title: 'Ressources', headerShown: false }} component={ResourcesStack} />
+            <Tab.Screen name="SearchStack" options={{ title: 'Recherche', headerShown: false }} component={SearchStack} />
         </Tab.Navigator>
     );
 }
